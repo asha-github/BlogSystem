@@ -1,0 +1,113 @@
+POST
+/public/User
+Payload - 
+{
+	"name":"profileName",
+	"userName":"userName",
+	"pwd":"pasWord"
+}
+
+GET - Might not be needed
+/public/User
+Response - 
+{
+	"content": [
+		{
+			"userName":"userName1"
+		},
+		{
+			"userName":"userName2"
+		}
+	],
+	"next":"/public/User?Locator=11";
+}
+
+GET
+/public/User/{userName}
+Response - 
+{
+	"name":"profileName",
+	"userName":"userName",
+	"pwd":"pasWord"
+}
+
+POST
+/public/User/{userName}/Blog
+Payload - 
+{
+	"title":"blogTitle",
+	"content":"blogContent"
+}
+
+PUT
+/public/User/{userName}/Blog
+Payload - 
+{
+	"title":"blogTitle",
+	"content":"blogContent"
+}
+
+GET
+/public/Blog
+Response - 
+{
+	"contents": [
+		{
+			"title":"blogTitle1",
+			"content":"blogContent1",
+			"publishTime": "publishTime1"
+		},
+		{
+			"title":"blogTitle2",
+			"content":"blogContent2",
+			"publishTime": "publishTime2"
+		}
+	],
+	"next": "/public/Blog?Locator=11"
+}
+
+POST
+/public/User/{userName}/Blog/Comment
+Payload - 
+{
+	"comment": {
+		"userName" : "userName";
+		"comment" : "commentContent"
+		}
+}
+
+GET
+/public/User/{userName}/Blog
+{
+	"content": [
+		{
+			"title":"blogTitle1",
+			"content":"blogContent1",
+		},
+		{
+			"title":"blogTitle2",
+			"content":"blogContent2",
+		}
+	],
+	"next":"/public/User/{userName}/Blog?Locator=11"
+}
+
+GET
+/public/User/{userName}/Blog/{blogTitle}/Comment
+{
+	"content": [
+		{
+			"comment": {
+				"userName" : "userName";
+				"comment" : "commentContent1"
+				}
+		},
+		{
+			"comment": {
+				"userName" : "userName";
+				"comment" : "commentContent2"
+				}
+		}
+	],
+	"next": "/public/User/{userName}/Blog/{blogTitle}/Comment?Locator=11"
+}
