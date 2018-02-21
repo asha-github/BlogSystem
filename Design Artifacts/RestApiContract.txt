@@ -10,31 +10,29 @@ Payload -
 
 Response
 {
-	"id":"userID"
+	"userName":"userName"
 }
 
 //GET a user account details for display
 GET
-/public/User/{userID}
+/public/User/{userName}
 Payload - 
 {
 	"name":"profileName",
-	"userName":"userName",
 }
 
 //Edit a user account
 PUT
-/public/User/{userID}
+/public/User/{userName}
 Payload - 
 {
 	"name":"profileName",
-	"userName":"userName",
 	"pwd":"pasWord"
 }
 
 Response
 {
-	"id":"userID"
+	"userName":"userName"
 }
 
 //Validate a user for LogIn
@@ -48,7 +46,7 @@ Payload -
 
 Response
 {
-	"id":"userID",
+	"userName":"userName",
 	"jwtToken":"someToken"
 }
 
