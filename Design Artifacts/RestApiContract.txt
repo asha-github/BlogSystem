@@ -1,3 +1,4 @@
+//Create a user account
 POST
 /public/User
 Payload - 
@@ -7,30 +8,49 @@ Payload -
 	"pwd":"pasWord"
 }
 
-GET - Might not be needed
-/public/User
-Response - 
+Response
 {
-	"content": [
-		{
-			"userName":"userName1"
-		},
-		{
-			"userName":"userName2"
-		}
-	],
-	"next":"/public/User?Locator=11";
+	"userName":"userName"
 }
 
+//GET a user account details for display
 GET
 /public/User/{userName}
-Response - 
+Payload - 
 {
 	"name":"profileName",
-	"userName":"userName",
+}
+
+//Edit a user account
+PUT
+/public/User/{userName}
+Payload - 
+{
+	"name":"profileName",
 	"pwd":"pasWord"
 }
 
+Response
+{
+	"userName":"userName"
+}
+
+//Validate a user for LogIn
+POST
+/public/User/{userName}
+//Sending password in header will be considered while implementation.
+Payload - 
+{
+	"pwd":"pasWord"
+}
+
+Response
+{
+	"userName":"userName",
+	"jwtToken":"someToken"
+}
+
+//Create a Blog
 POST
 /public/User/{userName}/Blog
 Payload - 
@@ -39,25 +59,29 @@ Payload -
 	"content":"blogContent"
 }
 
+Edit an existing Blog
 PUT
-/public/User/{userName}/Blog
+/public/User/{userName}/Blog/{blogID}
 Payload - 
 {
 	"title":"blogTitle",
 	"content":"blogContent"
 }
 
+//Get latest Blogs for Home Page. This API supports search also using query parameters.
 GET
-/public/Blog
+/public/Blog?title=someTitle&content=someContent
 Response - 
 {
 	"contents": [
 		{
+			"id":"blogID1",
 			"title":"blogTitle1",
 			"content":"blogContent1",
 			"publishTime": "publishTime1"
 		},
 		{
+			"id":"blogID2",
 			"title":"blogTitle2",
 			"content":"blogContent2",
 			"publishTime": "publishTime2"
@@ -66,8 +90,9 @@ Response -
 	"next": "/public/Blog?Locator=11"
 }
 
+//Comment on a blog
 POST
-/public/User/{userName}/Blog/Comment
+/public/User/{userName}/Blog/{blogID}/Comment
 Payload - 
 {
 	"comment": {
@@ -76,15 +101,18 @@ Payload -
 		}
 }
 
+//Get a particular user's blog. This API supports search also using query parameters.
 GET
-/public/User/{userName}/Blog
+/public/User/{userName}/Blog?title=someTitle&content=someContent
 {
 	"content": [
 		{
+			"id":"blogID1",
 			"title":"blogTitle1",
 			"content":"blogContent1",
 		},
 		{
+			"id":"blogID2",
 			"title":"blogTitle2",
 			"content":"blogContent2",
 		}
@@ -92,8 +120,9 @@ GET
 	"next":"/public/User/{userName}/Blog?Locator=11"
 }
 
+//Get all comments for a Blog
 GET
-/public/User/{userName}/Blog/{blogTitle}/Comment
+/public/User/{userName}/Blog/{blogID}/Comment
 {
 	"content": [
 		{
@@ -109,5 +138,5 @@ GET
 				}
 		}
 	],
-	"next": "/public/User/{userName}/Blog/{blogTitle}/Comment?Locator=11"
+	"next": "/public/User/{userName}/Blog/{blogID1}/Comment?Locator=11"
 }
