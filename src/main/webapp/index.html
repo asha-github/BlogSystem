@@ -1,0 +1,179 @@
+<html>
+<head>
+<title>Blog Application</title>
+<style>
+
+.btn {
+  background: #b2b6b8;
+  background-image: -webkit-linear-gradient(top, #b2b6b8, #b2b6b8);
+  background-image: -moz-linear-gradient(top, #b2b6b8, #b2b6b8);
+  background-image: -ms-linear-gradient(top, #b2b6b8, #b2b6b8);
+  background-image: -o-linear-gradient(top, #b2b6b8, #b2b6b8);
+  background-image: linear-gradient(to bottom, #b2b6b8, #b2b6b8);
+  -webkit-border-radius: 5;
+  -moz-border-radius: 5;
+  border-radius: 5px;
+  font-family: Arial;
+  color: #ffffff;
+  font-size: 20px;
+  padding: 6px 14px 6px 15px;
+  text-decoration: none;
+}
+
+.btn:hover {
+  background: #69747a;
+  background-image: -webkit-linear-gradient(top, #69747a, #69747a);
+  background-image: -moz-linear-gradient(top, #69747a, #69747a);
+  background-image: -ms-linear-gradient(top, #69747a, #69747a);
+  background-image: -o-linear-gradient(top, #69747a, #69747a);
+  background-image: linear-gradient(to bottom, #69747a, #69747a);
+  text-decoration: none;
+}
+
+
+
+td {
+    width: 5em;
+    line-height: 2em;
+    background-color: #fff;
+    font-weight: bold;
+}
+tr:hover {
+    color: #fff;
+    background-color: silver;
+}
+
+tr:hover td {
+    background-color: transparent;
+}
+
+</style>
+<script src="https://code.jquery.com/jquery-2.1.3.js"></script>
+<!-- <script src="jquery-2.1.3.js"></script> -->
+<script type="text/javascript">
+var current_page = 1;
+var records_per_page = 2;
+var objJson =[];
+
+$(document).ready(function(){
+
+
+	$.ajax({
+	    url: "data.json",
+	    type: "GET",
+	    headers: {
+
+	    	 accept: "application/json"
+	    },
+	    success: function(data) {
+	        // you can find the items in JSON format under data.results
+	    	 //console.log("data=="+JSON.stringify(data.contents));
+	    	 objJson=data.contents;
+	    	 //console.log("objJson=="+JSON.stringify(objJson));
+	    	 changePage(1);
+
+	    },
+	    error: function(data, errorCode, errorMessage) {
+	        // error handling
+	    }
+	});
+
+
+
+});
+
+
+function prevPage()
+{
+    if (current_page > 1) {
+        current_page--;
+        changePage(current_page);
+    }
+}
+
+function nextPage()
+{
+    if (current_page < numPages()) {
+        current_page++;
+        changePage(current_page);
+    }
+}
+
+function changePage(page)
+{
+
+    var btn_next = document.getElementById("btn_next");
+    var btn_prev = document.getElementById("btn_prev");
+    var listing_table = document.getElementById("listingTable");
+    var page_span = document.getElementById("page");
+
+    // Validate page
+    if (page < 1) page = 1;
+    if (page > numPages()) page = numPages();
+
+    listing_table.innerHTML ="";
+
+    var tempstr = "<TABLE BORDER='1' WIDTH='100%' CELLPADDING='1' CELLSPACING='1'>";
+    tempstr =tempstr.concat("<TR><TD width='20%'>Serial Number</TD><TD width='80%'>Tweet</TD></TR>") ;
+
+
+    for (var i = (page-1) * records_per_page; i < (page * records_per_page); i++) {
+    	//console.log("objJson[i]=="+JSON.stringify(objJson[i]));
+       // listing_table.innerHTML += "<TR><TD>"+i+"</TD><TD>"+objJson[i].title +"</TD></TR>";
+       var count=i+1;
+    	tempstr =tempstr.concat("<TR><TD width='20%'>"+count+"</TD><TD width='80%'><a href='/public/Blog?Locator="+objJson[i].id +"'>"+objJson[i].content +"</a></TD></TR>") ;
+    }
+    tempstr =tempstr.concat("</table>") ;
+    //console.log("tempstr=="+JSON.stringify(tempstr));
+    listing_table.innerHTML = tempstr;
+
+    page_span.innerHTML = page;
+
+    if (page == 1) {
+        btn_prev.style.visibility = "hidden";
+    } else {
+        btn_prev.style.visibility = "visible";
+    }
+
+    if (page == numPages()) {
+        btn_next.style.visibility = "hidden";
+    } else {
+        btn_next.style.visibility = "visible";
+    }
+}
+
+function numPages()
+{
+    return Math.ceil(objJson.length / records_per_page);
+}
+
+</script>
+</head>
+<body>
+	<h1>Blog Application</h1>
+	<hr />
+	<P>
+	Username:
+	<input id='Username' placeholder="Username">
+	Password:
+	<input id='Password' placeholder="Password">
+	<button id="btn" onclick="window.location.href='./homePage.html'">Login</button>
+	<button id="btn1" onclick="window.location.href='./createAccount.html'">Create New Account</button>
+	</P>
+	<P>
+	<input id='searchString' placeholder="Search">
+	<button id="btn2">Search</button>
+	</P>
+
+	<P>Latest Tweets:</P>
+
+
+
+	<div id="listingTable"></div>
+	<br/>
+<button class="btn" onclick="prevPage()" id="btn_prev">Prev</button>
+<button class="btn" onclick="nextPage()" id="btn_next">Next</button>
+&nbsp;Page No: <strong><span id="page"></span></strong>
+
+</body>
+</html>
