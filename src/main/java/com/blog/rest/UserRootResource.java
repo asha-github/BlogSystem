@@ -1,36 +1,32 @@
 package com.blog.rest;
 
-import java.util.List;
 import java.util.logging.Logger;
 
 import javax.ws.rs.Consumes;
-import javax.ws.rs.DefaultValue;
-import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import com.blog.api.Blog;
 import com.blog.api.BlogServiceException;
-import com.blog.api.IBlogService;
-import com.blog.biz.BlogService;
+import com.blog.api.IUserService;
+import com.blog.api.User;
+import com.blog.biz.UserService;
 
-@Path("/blogService")
+@Path("/userService")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces({ MediaType.APPLICATION_JSON })
-public class BlogRootResource {
-	private static final Logger logger = Logger.getLogger(BlogRootResource.class.getSimpleName());
-	private IBlogService blogService = new BlogService();
+public class UserRootResource {
+	private static final Logger logger = Logger.getLogger(UserRootResource.class.getSimpleName());
+	private IUserService userService = new UserService();
 
 	@POST
-	@Path("/blog")
-	public Response addBlog(Blog blog) {
+	@Path("/user")
+	public Response addBlog(User user) {
 		try {
-			blogService.addBlog(blog);
-			return Response.status(201).entity(blog).build();
+			userService.addUser(user);
+			return Response.status(201).entity(user).build();
 		} catch (BlogServiceException e) {
 			throw e;
 		}catch (Exception e) {
@@ -46,10 +42,10 @@ public class BlogRootResource {
 //		return Response.ok().entity(blog).build();
 //	}
 //
-	@GET
-	@Path("/blogs")
-	public Response getAllBlogs(@QueryParam("locator") @DefaultValue("1") int locator) {
-		List<Blog> blogs = blogService.getAllBlogs();
-		return Response.ok().entity(blogs).build();
-	}
+//	@GET
+//	@Path("/book")
+//	public Response search(@QueryParam("key") @DefaultValue("") String key) {
+//		List<Blog> blogs = blogService.search(key);
+//		return Response.ok().entity(blogs).build();
+//	}
 }

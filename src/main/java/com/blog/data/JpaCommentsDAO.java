@@ -6,39 +6,28 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
-import com.blog.api.Blog;
-import com.blog.api.User;
+import com.blog.api.Comment;
 
-public class JpaBlogDAO implements IBlogDAO {
+public class JpaCommentsDAO implements ICommentsDAO {
 	private EntityManagerFactory emf = Persistence.createEntityManagerFactory("blogdb");
 	private EntityManager em;
-
 	@Override
-	public void addBlog(Blog blog) {
+	public void addComment(Comment comment) {
 		em = emf.createEntityManager();
 		em.getTransaction().begin();
-		em.persist(blog);
+		em.persist(comment);
 		em.getTransaction().commit();
 		em.close();
 	}
 
 	@Override
-	public void editBlog(Blog blog) {
+	public void editComment(Comment comment) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public List<Blog> getAllBlogs(){
-		em = emf.createEntityManager();
-		List<Blog> list = em.createQuery("from " + Blog.class.getName()+" order by publishDate")
-				.getResultList();
-		em.close();
-		return list;
-	}
-
-	@Override
-	public Blog getBlog(User user) {
+	public List<Comment> getComments(long blogId) {
 		// TODO Auto-generated method stub
 		return null;
 	}

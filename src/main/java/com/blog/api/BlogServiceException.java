@@ -8,6 +8,8 @@ public class BlogServiceException extends RuntimeException {
 
 	public enum BlogError {
 		BLOG_CONTENT_EMPTY("Blog content is empty."),
+		USER_NAME_EMPTY("User name is empty."),
+		COMMENT_CONTENT_EMPTY("Comment content is empty."),
 		INTERNAL_SERVER_ERROR("Internal server error");
 		private String errorMessage;
 		BlogError(String msg) {

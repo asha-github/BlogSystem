@@ -1,6 +1,7 @@
 package com.blog.biz;
 
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Logger;
 
 import com.blog.api.Blog;
@@ -31,9 +32,9 @@ public class BlogService implements IBlogService {
 	}
 
 	@Override
-	public Blog getBlog() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Blog> getAllBlogs(){
+		List<Blog> blogs = dao.getAllBlogs();
+		return blogs;
 	}
 
 	@Override

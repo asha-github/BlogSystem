@@ -1,5 +1,5 @@
 <html>
 <body>
-<h2>Hello World from blog system!</h2>
+<h2>Blog system!</h2>
 </body>
 </html>
