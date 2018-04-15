@@ -6,8 +6,7 @@
 	<persistence-unit name="blogdb" transaction-type="RESOURCE_LOCAL">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		<properties>
-			<!-- <property name="hibernate.connection.url" value="jdbc:mysql://ec2-34-214-130-113.us-west-2.compute.amazonaws.com:3306/blogdb" /> -->
-			<property name="hibernate.connection.url" value="jdbc:mysql://127.0.0.1:3306/blogdb" />
+			<property name="hibernate.connection.url" value="jdbc:mysql://ec2-34-214-130-113.us-west-2.compute.amazonaws.com:3306/blogdb" />
 			<property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver" />
 			<property name="hibernate.connection.username" value="root" />
 			<property name="hibernate.connection.password" value="mysql" />

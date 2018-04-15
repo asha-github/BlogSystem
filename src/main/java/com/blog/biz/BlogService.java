@@ -26,9 +26,17 @@ public class BlogService implements IBlogService {
 	}
 
 	@Override
-	public void editBlog(Blog blog) {
-		// TODO Auto-generated method stub
-
+	public void editBlog(long blogId, Blog blog) {
+		logger.info("\nRequest for blog update received!!");
+		if (blog == null || blog.getBlogContent().trim().isEmpty()) {
+			throw new BlogServiceException(BlogServiceException.BlogError.BLOG_CONTENT_EMPTY); 
+		}
+		boolean isEditSuccessful = dao.editBlog(blogId, blog);
+		if(isEditSuccessful) {
+		logger.info("\nBlog with ID - "+blog.getBlogId() +" is updated with content "+blog.getBlogContent());
+		}else {
+			throw new BlogServiceException(BlogServiceException.BlogError.BLOG_CONTENT_EMPTY); 
+		}
 	}
 
 	@Override

@@ -6,7 +6,7 @@ public interface IBlogService {
 
 public void addBlog(Blog blog);
 
-public void editBlog(Blog blog);
+public void editBlog(long blogId, Blog blog);
 
 public List<Blog> getAllBlogs();
 

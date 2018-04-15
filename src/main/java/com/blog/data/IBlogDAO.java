@@ -8,7 +8,7 @@ import com.blog.api.User;
 public interface IBlogDAO {
 	public void addBlog(Blog blog);
 
-	public void editBlog(Blog blog);
+	public boolean editBlog(long blogId, Blog blog);
 
 	public List<Blog> getAllBlogs();
 

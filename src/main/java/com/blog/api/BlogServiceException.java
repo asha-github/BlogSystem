@@ -10,7 +10,8 @@ public class BlogServiceException extends RuntimeException {
 		BLOG_CONTENT_EMPTY("Blog content is empty."),
 		USER_NAME_EMPTY("User name is empty."),
 		COMMENT_CONTENT_EMPTY("Comment content is empty."),
-		INTERNAL_SERVER_ERROR("Internal server error");
+		INTERNAL_SERVER_ERROR("Internal server error"),
+		BLOG_UPDATE_FAILED("Blog update failed.");
 		private String errorMessage;
 		BlogError(String msg) {
 			this.errorMessage = msg;

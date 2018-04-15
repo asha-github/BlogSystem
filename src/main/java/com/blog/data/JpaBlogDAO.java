@@ -23,9 +23,21 @@ public class JpaBlogDAO implements IBlogDAO {
 	}
 
 	@Override
-	public void editBlog(Blog blog) {
-		// TODO Auto-generated method stub
-
+	public boolean editBlog(long blogId, Blog blog) {
+		boolean isEditSuccessful = false;
+		em = emf.createEntityManager();
+		em.getTransaction().begin();
+		Blog blogFromDb = em.find(Blog.class, blogId);
+		if(blogFromDb != null) {
+			blogFromDb.setBlogContent(blog.getBlogContent());
+			blogFromDb.setBlogTitle(blog.getBlogTitle());
+			em.getTransaction().commit();
+			isEditSuccessful = true;
+		}else {
+			em.getTransaction().rollback();
+		}
+		em.close();
+		return isEditSuccessful;
 	}
 
 	@Override
