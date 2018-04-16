@@ -83,6 +83,11 @@ $(document).ready(function(){
 
 });
 
+function searchPage()
+{
+	current_page = 1;
+	changePage(1);
+}
 
 function prevPage()
 {
@@ -129,7 +134,7 @@ function changePage(page)
     	console.log("objJson[i]=="+JSON.stringify(objJson[i]));
        // listing_table.innerHTML += "<TR><TD>"+i+"</TD><TD>"+objJson[i].title +"</TD></TR>";
        var count=i+1;
-    	tempstr =tempstr.concat("<TR><TD width='20%'>"+count+"</TD><TD width='80%'><a href='/public/Blog?Locator="+objJson[i].blogId +"'>"+objJson[i].blogTitle +"</a></TD></TR>") ;
+    	tempstr =tempstr.concat("<TR><TD width='20%'>"+count+"</TD><TD width='80%'><a href='./blogPage.html?blogTitle="+objJson[i].blogTitle+"&blogContent="+objJson[i].blogContent+"'>"+objJson[i].blogTitle +"</a></TD></TR>") ;
     }
     tempstr =tempstr.concat("</table>") ;
     //console.log("tempstr=="+JSON.stringify(tempstr));
@@ -173,7 +178,7 @@ function numPages()
 	</P>
 	<P>
 	<input id='searchString' placeholder="Search">
-	<button id="btn2">Search</button>
+	<button id="btn2" onclick="searchPage()">Search</button>
 	</P>
 
 	<P>Latest Tweets:</P>
