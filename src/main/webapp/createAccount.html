@@ -7,10 +7,9 @@ $(document).ready(function(){
 
 	$("#btn1").click(function () {
 		
-		
 		 var formData = {
-				 "userName":$('#profile_Name').val(),
-				 "profileName":$('#username').val(),
+				 "userName":$('#username').val(),
+				 "profileName":$('#profile_Name').val(),
 				 "password" :$('#password').val()
 		};
 		
@@ -20,14 +19,19 @@ $(document).ready(function(){
 		      data: JSON.stringify(formData),
 		      dataType: "json",
 		      contentType:  "application/json; charset=utf-8",
-		      success: function(resultData) { 
-		    	  alert("User account created successfully...");
-		    	  window.location.href = '/CMADUI/index.html';
-					 return false;
-		    	  
+		      async: false,
+		      success: function(resultData) {
+					alert("Account created successfully!!!!");
+					//window.location.href = './index.html';
+					//return false;	    	  
+		      },
+		      error: function(textStatus, errorThrown) {
+		    	  alert("Some error in account creation!!!!");
+					//window.location.href = './index.html';
+					//return false;   	  
 		      }
 		});
-		saveData.error(function() { alert("Something went wrong in account creation"); });
+		//saveData.error(function() { alert("Something went wrong in account creation"); });
 		
 		
 	});
@@ -64,5 +68,8 @@ $(document).ready(function(){
 	<button id="btn1" >Create Account</button>
 	
 	</form>
+	<P>
+	<button id="btn" onclick="window.location.href='./index.html'">Back</button>
+	<P>
 </body>
 </html>
