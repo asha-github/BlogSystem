@@ -11,6 +11,9 @@ public interface IBlogDAO {
 	public boolean editBlog(long blogId, Blog blog);
 
 	public List<Blog> getAllBlogs();
+	
+	public List<Blog> searchBlogs(String key);
 
 	public Blog getBlog(User user);
+	public Blog getBlogDetails(long blogId);
 }

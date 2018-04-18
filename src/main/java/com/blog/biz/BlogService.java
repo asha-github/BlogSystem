@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
+
 import com.blog.api.Blog;
 import com.blog.api.BlogServiceException;
 import com.blog.api.IBlogService;
@@ -35,7 +36,7 @@ public class BlogService implements IBlogService {
 		if(isEditSuccessful) {
 		logger.info("\nBlog with ID - "+blog.getBlogId() +" is updated with content "+blog.getBlogContent());
 		}else {
-			throw new BlogServiceException(BlogServiceException.BlogError.BLOG_CONTENT_EMPTY); 
+			throw new BlogServiceException(BlogServiceException.BlogError.BLOG_UPDATE_FAILED); 
 		}
 	}
 
@@ -44,11 +45,29 @@ public class BlogService implements IBlogService {
 		List<Blog> blogs = dao.getAllBlogs();
 		return blogs;
 	}
-
+	@Override
+	public List<Blog> searchBlogs(String key) {
+		logger.info("\nRequest for search blog received with search key - "+key);
+		List<Blog> blogs = null;
+		if(key != null && !key.isEmpty()) {
+			blogs = dao.searchBlogs(key);
+		} else {
+			throw new BlogServiceException(BlogServiceException.BlogError.SEARCH_KEY_NOT_PROVIDED); 
+		}
+		return blogs;
+	}
 	@Override
 	public Blog getBlog(User user) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	@Override
+	public Blog getBlogDetails(long blogId){
+		Blog blog =  dao.getBlogDetails(blogId);
+		if (blog == null || blog.getBlogContent().trim().isEmpty()) {
+			throw new BlogServiceException(BlogServiceException.BlogError.BLOG_NOT_FOUND); 
+		}
+		return blog;
 	}
 
 }

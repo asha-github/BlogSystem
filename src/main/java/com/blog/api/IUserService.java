@@ -4,7 +4,9 @@ public interface IUserService {
 
 public void addUser(User user);
 
-public void editUser(User user);
+public String authenticateUser(User user);
+
+public void editUser(String userName, User user);
 
 public User getUserDetails(String userName);
 

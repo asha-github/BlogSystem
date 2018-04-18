@@ -19,6 +19,7 @@ import com.blog.api.Blog;
 import com.blog.api.BlogServiceException;
 import com.blog.api.IBlogService;
 import com.blog.biz.BlogService;
+import com.blog.security.JWTTokenNeeded;
 
 @Path("/blogService")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -30,6 +31,7 @@ public class BlogRootResource {
 	
 	@POST
 	@Path("/blog")
+	@JWTTokenNeeded
 	public Response addBlog(Blog blog) {
 		try {
 			logger.info("Create request received for blog");
@@ -39,11 +41,12 @@ public class BlogRootResource {
 			throw e;
 		}catch (Exception e) {
 			logger.info("Exception  - "+e);
-			throw new BlogServiceException(BlogServiceException.BlogError.INTERNAL_SERVER_ERROR);
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
 		}
 	}
 	@PUT
 	@Path("/blog/{blogId}")
+	@JWTTokenNeeded
 	public Response editBlog(@PathParam("blogId") long blogId, Blog blog) {
 		try {
 			logger.info("Update request received for blog");
@@ -53,14 +56,43 @@ public class BlogRootResource {
 			throw e;
 		}catch (Exception e) {
 			logger.info("Exception  - "+e);
-			throw new BlogServiceException(BlogServiceException.BlogError.INTERNAL_SERVER_ERROR);
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
 		}
 	}
 
 	@GET
 	@Path("/blogs")
-	public Response getAllBlogs(@QueryParam("locator") @DefaultValue("1") int locator) {
-		List<Blog> blogs = blogService.getAllBlogs();
+	public Response getAllBlogs() {
+		try {
+			List<Blog> blogs = blogService.getAllBlogs();
+			return Response.ok().entity(blogs).build();
+		} catch (Exception e) {
+			logger.info("Exception  - "+e);
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+		}
+	}
+	
+	@GET
+	@Path("/search")
+	public Response search(@QueryParam("key") @DefaultValue("") String searchKey) {
+		try {
+		List<Blog> blogs = blogService.searchBlogs(searchKey);
 		return Response.ok().entity(blogs).build();
+		} catch (Exception e) {
+			logger.info("Exception  - "+e);
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+		}
+	}
+	
+	@GET
+	@Path("/blog")
+	public Response getBlogDetails(@QueryParam("blogId") long blogId) {
+		try {
+		Blog blog = blogService.getBlogDetails(blogId);
+		return Response.ok().entity(blog).build();
+		} catch (Exception e) {
+			logger.info("Exception  - "+e);
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+		}
 	}
 }

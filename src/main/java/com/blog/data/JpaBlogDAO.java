@@ -1,18 +1,21 @@
 package com.blog.data;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.TypedQuery;
 
 import com.blog.api.Blog;
 import com.blog.api.User;
+import com.blog.rest.BlogRootResource;
 
 public class JpaBlogDAO implements IBlogDAO {
 	private EntityManagerFactory emf = Persistence.createEntityManagerFactory("blogdb");
 	private EntityManager em;
-
+	private static final Logger logger = Logger.getLogger(JpaBlogDAO.class.getSimpleName());
 	@Override
 	public void addBlog(Blog blog) {
 		em = emf.createEntityManager();
@@ -48,11 +51,32 @@ public class JpaBlogDAO implements IBlogDAO {
 		em.close();
 		return list;
 	}
-
+	@Override
+	public List<Blog> searchBlogs(String key) {
+		em = emf.createEntityManager();
+		TypedQuery<Blog> query = em.createNamedQuery(Blog.SEARCH_BY_KEY,Blog.class);
+        query.setParameter("key", "%"+key.toLowerCase()+"%");
+        List<Blog>  blogs = query.getResultList();
+        logger.info("Search Key - "+key);
+        if(blogs != null) {
+        	for(int i=0;i<blogs.size();i++) {
+        		logger.info("Search Blogs Results - "+blogs.get(i).getBlogTitle());
+        	}
+        }
+        em.close();
+		return blogs;
+	}
 	@Override
 	public Blog getBlog(User user) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	@Override
+	public Blog getBlogDetails(long blogId){ 
+		em = emf.createEntityManager();
+		Blog blog = em.find(Blog.class, blogId);
+		em.close();
+		return blog;
 	}
 
 }
