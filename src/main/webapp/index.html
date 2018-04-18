@@ -56,6 +56,42 @@ var records_per_page = 5;
 var objJson =[];
 
 $(document).ready(function(){
+	
+	$("#btn").click(function () {
+		
+		console.log("Login clicked!!!!");		
+		
+		 var formData = {
+				 "userName":$('#username').val(),
+				 "profileName":"some name",
+				 "password" :$('#password').val()
+		};
+		
+		 var saveData = $.ajax({
+		      type: 'POST',
+		      url: 'http://localhost:8080/Blog/public/userService/login',
+		      data: JSON.stringify(formData),
+		      //dataType: "json",
+		      contentType:  "application/json; charset=utf-8",
+		      async: false,
+		      success: function(data, textStatus, request) {
+		    	  	console.log(request.getResponseHeader('Authorization'));
+					alert("Login Successful...");
+		    	  //window.location.href = '/CMADUI/index.html';
+		    	  location.href = "http://localhost:8080/CMADUI/homePage.html";
+					 return false;
+		    	  
+		      },
+		      error: function(request, textStatus, errorThrown) {
+		    	  alert("Login failure...");
+		    	  console.log("Login failure...");
+		    	  //window.location.href = '/CMADUI/index.html';
+		    	  //window.location.href = './homePage.html';
+					 return false;
+		    	  
+		      }
+		});
+	});
 
 
 	$.ajax({
@@ -168,12 +204,17 @@ function numPages()
 <body>
 	<h1>Blog Application</h1>
 	<hr />
+	<form action="" method="post">
 	<P>
 	Username:
-	<input id='Username' placeholder="Username">
+	<input id='username' name="username" type="text" placeholder="Username">
+
 	Password:
-	<input id='Password' placeholder="Password">
-	<button id="btn" onclick="window.location.href='./homePage.html'">Login</button>
+	<input id='password' name="password" type="password" placeholder="Password">
+	<button id="btn" >Login</button>
+	
+	</form>
+	
 	<button id="btn1" onclick="window.location.href='./createAccount.html'">Create New Account</button>
 	</P>
 	<P>
