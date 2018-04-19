@@ -12,7 +12,7 @@ public List<Blog> getAllBlogs();
 
 public List<Blog> searchBlogs(String key);
 
-public Blog getBlog(User user);
+public List<Blog> getBlogsByUser(String userName);
 
 public Blog getBlogDetails(long blogId);
 

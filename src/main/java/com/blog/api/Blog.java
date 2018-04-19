@@ -16,12 +16,14 @@ import javax.persistence.Transient;
 
 @Entity
 @NamedQueries({
-    @NamedQuery(name = Blog.SEARCH_BY_KEY, query = "SELECT u FROM Blog u where (lower(u.blogTitle) like :key) OR (lower(u.blogTitle) like :key)"),
+    @NamedQuery(name = Blog.SEARCH_BY_KEY, query = "SELECT u FROM Blog u where (lower(u.blogTitle) like :key) OR (lower(u.blogTitle) like :key)  order by publishDate"),
+    @NamedQuery(name = Blog.SEARCH_BY_USER, query = "SELECT u FROM Blog u where u.userName = :userName order by publishDate"),
 })
 public class Blog implements Serializable{
 
 private static final long serialVersionUID = 1L;
 public static final String SEARCH_BY_KEY = "Blog.SEARCH";
+public static final String SEARCH_BY_USER = "Blog.SEARCHUSER";
 @Id
 @GeneratedValue(strategy = GenerationType.IDENTITY)
 private long blogId;
@@ -29,8 +31,7 @@ private String blogTitle;
 private String blogContent;
 @Temporal(TemporalType.TIMESTAMP)
 private Date publishDate;
-@Transient
-private String userId;
+private String userName;
 @Transient
 private List<String> comments;
 
@@ -58,11 +59,11 @@ public Date getPublishDate() {
 public void setPublishDate(Date publishDate) {
 	this.publishDate = publishDate;
 }
-public String getUserId() {
-	return userId;
+public String getUserName() {
+	return userName;
 }
-public void setUserId(String userId) {
-	this.userId = userId;
+public void setUserId(String userName) {
+	this.userName = userName;
 }
 public List<String> getComments() {
 	return comments;

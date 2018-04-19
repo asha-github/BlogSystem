@@ -3,7 +3,6 @@ package com.blog.data;
 import java.util.List;
 
 import com.blog.api.Blog;
-import com.blog.api.User;
 
 public interface IBlogDAO {
 	public void addBlog(Blog blog);
@@ -14,6 +13,7 @@ public interface IBlogDAO {
 	
 	public List<Blog> searchBlogs(String key);
 
-	public Blog getBlog(User user);
+	public List<Blog> getBlogsByUser(String userName);
+	
 	public Blog getBlogDetails(long blogId);
 }

@@ -67,9 +67,19 @@ public class JpaBlogDAO implements IBlogDAO {
 		return blogs;
 	}
 	@Override
-	public Blog getBlog(User user) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Blog> getBlogsByUser(String userName) {
+		em = emf.createEntityManager();
+		TypedQuery<Blog> query = em.createNamedQuery(Blog.SEARCH_BY_USER,Blog.class);
+        query.setParameter("userName", userName);
+        List<Blog>  blogs = query.getResultList();
+        logger.info("userName - "+userName);
+        if(blogs != null) {
+        	for(int i=0;i<blogs.size();i++) {
+        		logger.info("Blogs for user"+userName+". Results - "+blogs.get(i).getBlogTitle());
+        	}
+        }
+        em.close();
+		return blogs;
 	}
 	@Override
 	public Blog getBlogDetails(long blogId){ 

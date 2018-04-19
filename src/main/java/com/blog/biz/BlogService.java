@@ -57,9 +57,15 @@ public class BlogService implements IBlogService {
 		return blogs;
 	}
 	@Override
-	public Blog getBlog(User user) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Blog> getBlogsByUser(String userName) {
+		logger.info("\nRequest for blog for user "+userName + " received.");
+		List<Blog> blogs = null;
+		if(userName != null && !userName.isEmpty()) {
+			blogs = dao.getBlogsByUser(userName);
+		} else {
+			throw new BlogServiceException(BlogServiceException.BlogError.USER_NAME_EMPTY); 
+		}
+		return blogs;
 	}
 	@Override
 	public Blog getBlogDetails(long blogId){

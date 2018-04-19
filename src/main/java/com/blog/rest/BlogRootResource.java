@@ -95,4 +95,16 @@ public class BlogRootResource {
 			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
 		}
 	}
+	
+	@GET
+	@Path("/blogsByUser")
+	public Response getBlogsByUser(@QueryParam("user") String userName) {
+		try {
+		List<Blog> blogs = blogService.getBlogsByUser(userName);
+		return Response.ok().entity(blogs).build();
+		} catch (Exception e) {
+			logger.info("Exception  - "+e);
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+		}
+	}
 }
