@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
+import com.blog.api.Blog;
 import com.blog.api.BlogServiceException;
 import com.blog.api.Comment;
 import com.blog.api.ICommentsService;
@@ -24,18 +25,16 @@ public class CommentsService implements ICommentsService {
 		logger.info("\nNew comment created with ID - "+comment.getCommentId() +" for blog "+comment.getBlogId() +" with content "+comment.getCommentContent()+" and comment added date is "+comment.getCommentContent());
 	
 	}
-
 	@Override
-	public void editComment(Comment comment) {
+	public void editComment(long commentId, Comment comment) {
 		// TODO Auto-generated method stub
-
+		
 	}
-
 	@Override
-	public List<Comment> getComments(long blogId) {
-		// TODO Auto-generated method stub
-		return null;
-
+	public List<Comment> getCommentsForBlog(long blogId) {
+		logger.info("\nRequest for comments for blog "+blogId + " received.");
+		List<Comment> comments = dao.getCommentsForBlog(blogId);
+		return comments;
 	}
 
 }

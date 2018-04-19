@@ -8,7 +8,8 @@ public interface ICommentsDAO {
 	
 	public void addComment(Comment comment);
 
-	public void editComment(Comment comment);
+	public void editComment(long commentId, Comment comment);
 
-	public List<Comment> getComments(long blogId);
+	public List<Comment> getCommentsForBlog(long blogId);
+
 }

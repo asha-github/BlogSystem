@@ -19,17 +19,16 @@ public class JpaCommentsDAO implements ICommentsDAO {
 		em.getTransaction().commit();
 		em.close();
 	}
-
 	@Override
-	public void editComment(Comment comment) {
+	public void editComment(long commentId, Comment comment) {
 		// TODO Auto-generated method stub
-
+		
 	}
-
 	@Override
-	public List<Comment> getComments(long blogId) {
+	public List<Comment> getCommentsForBlog(long blogId) {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 
 }

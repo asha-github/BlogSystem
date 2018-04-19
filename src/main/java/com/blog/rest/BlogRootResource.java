@@ -36,12 +36,12 @@ public class BlogRootResource {
 		try {
 			logger.info("Create request received for blog");
 			blogService.addBlog(blog);
-			return Response.status(Response.Status.CREATED).entity(blog).header("Access-Control-Allow-Origin", "*").build();
+			return Response.status(Response.Status.CREATED).entity(blog).build();
 		} catch (BlogServiceException e) {
 			throw e;
 		}catch (Exception e) {
 			logger.info("Exception  - "+e);
-			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).header("Access-Control-Allow-Origin", "*").build();
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
 		}
 	}
 	@PUT
@@ -51,12 +51,12 @@ public class BlogRootResource {
 		try {
 			logger.info("Update request received for blog");
 			blogService.editBlog(blogId, blog);
-			return Response.status(Response.Status.OK).entity(blog).header("Access-Control-Allow-Origin", "*").build();
+			return Response.status(Response.Status.OK).entity(blog).build();
 		} catch (BlogServiceException e) {
 			throw e;
 		}catch (Exception e) {
 			logger.info("Exception  - "+e);
-			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).header("Access-Control-Allow-Origin", "*").build();
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
 		}
 	}
 
@@ -65,10 +65,10 @@ public class BlogRootResource {
 	public Response getAllBlogs() {
 		try {
 			List<Blog> blogs = blogService.getAllBlogs();
-			return Response.ok().entity(blogs).header("Access-Control-Allow-Origin", "*").build();
+			return Response.ok().entity(blogs).build();
 		} catch (Exception e) {
 			logger.info("Exception  - "+e);
-			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).header("Access-Control-Allow-Origin", "*").build();
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
 		}
 	}
 	
@@ -77,10 +77,10 @@ public class BlogRootResource {
 	public Response search(@QueryParam("key") @DefaultValue("") String searchKey) {
 		try {
 		List<Blog> blogs = blogService.searchBlogs(searchKey);
-		return Response.ok().entity(blogs).header("Access-Control-Allow-Origin", "*").build();
+		return Response.ok().entity(blogs).build();
 		} catch (Exception e) {
 			logger.info("Exception  - "+e);
-			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).header("Access-Control-Allow-Origin", "*").build();
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
 		}
 	}
 	
@@ -89,10 +89,10 @@ public class BlogRootResource {
 	public Response getBlogDetails(@QueryParam("blogId") long blogId) {
 		try {
 		Blog blog = blogService.getBlogDetails(blogId);
-		return Response.ok().entity(blog).header("Access-Control-Allow-Origin", "*").build();
+		return Response.ok().entity(blog).build();
 		} catch (Exception e) {
 			logger.info("Exception  - "+e);
-			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).header("Access-Control-Allow-Origin", "*").build();
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
 		}
 	}
 	
@@ -101,10 +101,10 @@ public class BlogRootResource {
 	public Response getBlogsByUser(@QueryParam("user") String userName) {
 		try {
 		List<Blog> blogs = blogService.getBlogsByUser(userName);
-		return Response.ok().entity(blogs).header("Access-Control-Allow-Origin", "*").build();
+		return Response.ok().entity(blogs).build();
 		} catch (Exception e) {
 			logger.info("Exception  - "+e);
-			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).header("Access-Control-Allow-Origin", "*").build();
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
 		}
 	}
 }

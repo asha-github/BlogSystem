@@ -33,12 +33,13 @@ public class UserRootResource {
 	public Response addUser(User user) {
 		try {
 			userService.addUser(user);
-			return Response.status(Response.Status.CREATED).entity(user).header("Access-Control-Allow-Origin", "*").build();
+			return Response.status(Response.Status.CREATED).entity(user)
+					.build();
 		} catch (BlogServiceException e) {
 			throw e;
 		} catch (Exception e) {
 			logger.info("Exception  - " + e);
-			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).header("Access-Control-Allow-Origin", "*").build();
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
 		}
 	}
 
@@ -49,10 +50,10 @@ public class UserRootResource {
 			// Authenticate the user using the credentials provided
 			String token = userService.authenticateUser(user);
 			// Return the token on the response
-			return Response.ok().header(HttpHeaders.AUTHORIZATION, token).header("Access-Control-Allow-Origin", "*").build();
+			return Response.ok().header(HttpHeaders.AUTHORIZATION, token).build();
 		} catch (Exception e) {
 			logger.info("Exception  - " + e);
-			return Response.status(Response.Status.UNAUTHORIZED).header("Access-Control-Allow-Origin", "*").build();
+			return Response.status(Response.Status.UNAUTHORIZED).build();
 		}
 	}
 
@@ -63,12 +64,12 @@ public class UserRootResource {
 		try {
 			logger.info("Update request received for user");
 			userService.editUser(userName, user);
-			return Response.status(Response.Status.OK).entity(user).header("Access-Control-Allow-Origin", "*").build();
+			return Response.status(Response.Status.OK).entity(user).build();
 		} catch (BlogServiceException e) {
 			throw e;
 		} catch (Exception e) {
 			logger.info("Exception  - " + e);
-			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).header("Access-Control-Allow-Origin", "*").build();
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
 		}
 	}
 
@@ -81,7 +82,7 @@ public class UserRootResource {
 			return Response.ok().entity(user).build();
 		} catch (Exception e) {
 			logger.info("Exception  - " + e);
-			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).header("Access-Control-Allow-Origin", "*").build();
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
 		}
 	}
 }
