@@ -6,16 +6,16 @@ $(document).ready(function(){
 
 
 	$("#btn1").click(function () {
-		
+
 		 var formData = {
 				 "userName":$('#username').val(),
 				 "profileName":$('#profile_Name').val(),
 				 "password" :$('#password').val()
 		};
-		
+
 		 var saveData = $.ajax({
 		      type: 'POST',
-		      url: 'http://localhost:8080/Blog/public/userService/user',
+		      url: 'http://ec2-35-164-51-67.us-west-2.compute.amazonaws.com:8080/Blog/public/userService/user',
 		      data: JSON.stringify(formData),
 		      dataType: "json",
 		      contentType:  "application/json; charset=utf-8",
@@ -23,17 +23,17 @@ $(document).ready(function(){
 		      success: function(resultData) {
 					alert("Account created successfully!!!!");
 					//window.location.href = './index.html';
-					//return false;	    	  
+					//return false;
 		      },
 		      error: function(textStatus, errorThrown) {
 		    	  alert("Some error in account creation!!!!");
 					//window.location.href = './index.html';
-					//return false;   	  
+					//return false;
 		      }
 		});
 		//saveData.error(function() { alert("Something went wrong in account creation"); });
-		
-		
+
+
 	});
 
 
@@ -49,7 +49,7 @@ $(document).ready(function(){
 <body>
 	<h1>Create Account</h1>
 	<hr />
-	
+
 	<form action="" method="post">
 	<P>
 	Profile Name:
@@ -66,7 +66,7 @@ $(document).ready(function(){
 	<input id='password' name="password" type="password" placeholder="Password">
 	</P>
 	<button id="btn1" >Create Account</button>
-	
+
 	</form>
 	<P>
 	<button id="btn" onclick="window.location.href='./index.html'">Back</button>

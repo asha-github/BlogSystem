@@ -56,20 +56,20 @@ var records_per_page = 5;
 var objJson =[];
 
 $(document).ready(function(){
-	
+
 	$("#btn").click(function () {
-		
-		console.log("Login clicked!!!!");		
-		
+
+		console.log("Login clicked!!!!");
+
 		 var formData = {
 				 "userName":$('#username').val(),
 				 "profileName":"some name",
 				 "password" :$('#password').val()
 		};
-		
+
 		 var saveData = $.ajax({
 		      type: 'POST',
-		      url: 'http://localhost:8080/Blog/public/userService/login',
+		      url: 'http://ec2-35-164-51-67.us-west-2.compute.amazonaws.com:8080/Blog/public/userService/login',
 		      data: JSON.stringify(formData),
 		      //dataType: "json",
 		      contentType:  "application/json; charset=utf-8",
@@ -80,7 +80,7 @@ $(document).ready(function(){
 		    	  //window.location.href = '/CMADUI/index.html';
 		    	  location.href = "http://localhost:8080/CMADUI/homePage.html";
 					 return false;
-		    	  
+
 		      },
 		      error: function(request, textStatus, errorThrown) {
 		    	  alert("Login failure...");
@@ -88,14 +88,14 @@ $(document).ready(function(){
 		    	  //window.location.href = '/CMADUI/index.html';
 		    	  //window.location.href = './homePage.html';
 					 return false;
-		    	  
+
 		      }
 		});
 	});
 
 
 	$.ajax({
-	    url: "http://localhost:8080/Blog/public/blogService/blogs",
+	    url: "http://ec2-35-164-51-67.us-west-2.compute.amazonaws.com:8080/Blog/public/blogService/blogs",
 	    type: "GET",
 	    headers: {
 
@@ -158,7 +158,7 @@ function changePage(page)
 
     var tempstr = "<TABLE BORDER='1' WIDTH='100%' CELLPADDING='1' CELLSPACING='1'>";
     tempstr =tempstr.concat("<TR><TD width='20%'>Serial Number</TD><TD width='80%'>Tweet</TD></TR>") ;
-    
+
 	//there can be lesser data in last page
 	if((page * records_per_page) > (objJson.length)) {
 		number_of_records_in_curr_page = (objJson.length) - ((page - 1) * records_per_page);
@@ -212,9 +212,9 @@ function numPages()
 	Password:
 	<input id='password' name="password" type="password" placeholder="Password">
 	<button id="btn" >Login</button>
-	
+
 	</form>
-	
+
 	<button id="btn1" onclick="window.location.href='./createAccount.html'">Create New Account</button>
 	</P>
 	<P>
