@@ -1,64 +1,226 @@
 <html>
 <head>
-<title>Blog Application</title>
-<script src="jquery-2.1.3.js"></script>
+<title>My Blog Application</title>
+<style>
+
+.btn {
+  background: #b2b6b8;
+  background-image: -webkit-linear-gradient(top, #b2b6b8, #b2b6b8);
+  background-image: -moz-linear-gradient(top, #b2b6b8, #b2b6b8);
+  background-image: -ms-linear-gradient(top, #b2b6b8, #b2b6b8);
+  background-image: -o-linear-gradient(top, #b2b6b8, #b2b6b8);
+  background-image: linear-gradient(to bottom, #b2b6b8, #b2b6b8);
+  -webkit-border-radius: 5;
+  -moz-border-radius: 5;
+  border-radius: 5px;
+  font-family: Arial;
+  color: #ffffff;
+  font-size: 20px;
+  padding: 6px 14px 6px 15px;
+  text-decoration: none;
+}
+
+.btn:hover {
+  background: #69747a;
+  background-image: -webkit-linear-gradient(top, #69747a, #69747a);
+  background-image: -moz-linear-gradient(top, #69747a, #69747a);
+  background-image: -ms-linear-gradient(top, #69747a, #69747a);
+  background-image: -o-linear-gradient(top, #69747a, #69747a);
+  background-image: linear-gradient(to bottom, #69747a, #69747a);
+  text-decoration: none;
+}
+
+
+
+td {
+    width: 5em;
+    line-height: 2em;
+    background-color: #fff;
+    font-weight: bold;
+}
+tr:hover {
+    color: #fff;
+    background-color: silver;
+}
+
+tr:hover td {
+    background-color: transparent;
+}
+
+</style>
+<script src="https://code.jquery.com/jquery-2.1.3.js"></script>
+<!-- <script src="jquery-2.1.3.js"></script> -->
 <script type="text/javascript">
+
+function getParams(){
+	var idx = document.URL.indexOf('?');
+	var params = new Array();
+	if (idx != -1) {
+	var pairs = document.URL.substring(idx+1, document.URL.length).split('&');
+	for (var i=0; i<pairs.length; i++){
+	nameVal = pairs[i].split('=');
+	params[nameVal[0]] = nameVal[1];
+	}
+	}
+	return params;
+}
+
+var userDetails;
+var params = getParams();
+var userName = unescape(params["userName"]);
+var authorization_token = unescape(params["authorization_token"]);
+var current_page = 1;
+var records_per_page = 5;
+var objJson =[];
+
+$(document).ready(function(){
+	
+	$("#btn1").click(function (e) {
+		 e.preventDefault();
+		 window.location.href = "./createBlog.html?userName=" + userName + "&authorization_token=" + authorization_token;
+	});
+	
+	$.ajax({
+	    url: "http://ec2-35-164-51-67.us-west-2.compute.amazonaws.com:8080/Blog/public/userService/user?userName=" + userName,
+	    type: "GET",
+	    headers: {
+
+	    	 accept: "application/json",
+	    	 Authorization: authorization_token
+	    },
+	    success: function(data) {
+	        // you can find the items in JSON format under data.results
+	    	 console.log("data - " +JSON.stringify(data));
+	    	 userDetails=data;
+	    	 console.log("userDetails - " +JSON.stringify(userDetails));
+	    	 console.log("userDetails - " +userDetails);
+	    	 document.ProfileNameForm.ProfileName.value = userDetails.profileName;
+	    	 
+	    		$.ajax({
+	    		    url: "http://ec2-35-164-51-67.us-west-2.compute.amazonaws.com:8080/Blog/public/blogService/blogsByUser?user=" + userDetails.userName,
+	    		    type: "GET",
+	    		    headers: {
+
+	    		    	 accept: "application/json",
+	    		    	 Authorization: authorization_token
+	    		    },
+	    		    success: function(data) {
+	    		        // you can find the items in JSON format under data.results
+	    		    	 //console.log("data=="+JSON.stringify(data.contents));
+	    		    	 //objJson=data.contents;
+	    		    	 objJson=data;
+	    		    	// console.log("objJson=="+JSON.stringify(objJson));
+	    		    	 changePage(1);
+
+	    		    },
+	    		    error: function(data, errorCode, errorMessage) {
+	    		        // error handling
+	    		    }
+	    		});
+	    },
+	    error: function(data, errorCode, errorMessage) {
+	        // error handling
+	    }
+	});
+	
+});
+
+
+
+function prevPage()
+{
+    if (current_page > 1) {
+        current_page--;
+        changePage(current_page);
+    }
+}
+
+function nextPage()
+{
+    if (current_page < numPages()) {
+        current_page++;
+        changePage(current_page);
+    }
+}
+
+function changePage(page)
+{
+
+    var btn_next = document.getElementById("btn_next");
+    var btn_prev = document.getElementById("btn_prev");
+    var listing_table = document.getElementById("listingTable");
+    var page_span = document.getElementById("page");
+    var number_of_records_in_curr_page = 0;
+
+    // Validate page
+    if (page < 1) page = 1;
+    if (page > numPages()) page = numPages();
+
+    listing_table.innerHTML ="";
+
+    var tempstr = "<TABLE BORDER='1' WIDTH='100%' CELLPADDING='1' CELLSPACING='1'>";
+    tempstr =tempstr.concat("<TR><TD width='20%'>Serial Number</TD><TD width='80%'>Tweet</TD></TR>") ;
+    
+	//there can be lesser data in last page
+	if((page * records_per_page) > (objJson.length)) {
+		number_of_records_in_curr_page = (objJson.length) - ((page - 1) * records_per_page);
+	} else {
+		number_of_records_in_curr_page = records_per_page;
+	}
+
+    for (var i = (page-1) * records_per_page; i < (((page-1) * records_per_page) + number_of_records_in_curr_page); i++) {
+    	console.log("objJson[i]=="+JSON.stringify(objJson[i]));
+       // listing_table.innerHTML += "<TR><TD>"+i+"</TD><TD>"+objJson[i].title +"</TD></TR>";
+       var count=i+1;
+    	tempstr =tempstr.concat("<TR><TD width='20%'>"+count+"</TD><TD width='80%'><a href='./blogPage.html?blogTitle="+objJson[i].blogTitle+"&blogContent="+objJson[i].blogContent+"'>"+objJson[i].blogTitle +"</a></TD></TR>") ;
+    }
+    tempstr =tempstr.concat("</table>") ;
+    //console.log("tempstr=="+JSON.stringify(tempstr));
+    listing_table.innerHTML = tempstr;
+
+    page_span.innerHTML = page;
+
+    if (page == 1) {
+        btn_prev.style.visibility = "hidden";
+    } else {
+        btn_prev.style.visibility = "visible";
+    }
+
+    if (page == numPages()) {
+        btn_next.style.visibility = "hidden";
+    } else {
+        btn_next.style.visibility = "visible";
+    }
+}
+
+function numPages()
+{
+	console.log("objJson.length = " + objJson.length);
+	console.log("objJson.length / records_per_page = " + (objJson.length / records_per_page));
+	console.log("Math.ceil(objJson.length / records_per_page) = " + (Math.ceil(objJson.length / records_per_page)));
+    return Math.ceil(objJson.length / records_per_page);
+}
+
 </script>
+
 </head>
 <body>
-	<h1>Blog Application - Home Page</h1>
-	<hr />
-	<TR><TD><INPUT TYPE="text" placeholder="ProfileName" NAME="Input" Size="17" READONLY DISABLED></TD></TR>
-	<button id="btn1" onclick="window.location.href='./createAccount.html'">Edit</button>
 
-	<P></P>
-
-	<input id='searchString' placeholder="Search">
-
-	<button id="btn2">Search</button>
-	<P></P>
-
-	<button id="btn3">Create a new Blog</button>
+	<FORM NAME="ProfileNameForm">
+	<B>User Name:</B>
+	<INPUT TYPE="text" NAME="ProfileName" SIZE="20" READONLY=1 DISABLED></P>
+	</FORM>
+	
+	<P>
+	<button id="btn1">Create a new Blog</button>
 	</P>
 
-	<P>Your Tweets:</P>
-	<TABLE BORDER="3" CELLPADDING="3" CELLSPACING="3">
-	<TR>
-		<TD>Serial Number</TD><TD>Tweet</TD><TD>Edit</TD>
-	</TR>
-	<TR>
-		<TD>1</TD><TD>Tweet 1</TD><TD><button id="btn5">Edit</button></TD>
-	</TR>
-	<TR>
-		<TD>2</TD><TD>Tweet 2</TD><TD><button id="btn6">Edit</button></TD>
-	</TR>
-	<TR>
-		<TD>3</TD><TD>Tweet 3</TD><TD><button id="btn7">Edit</button></TD>
-	</TR>
-	<TR>
-		<TD>4</TD><TD>Tweet 4</TD><TD><button id="btn8">Edit</button></TD>
-	</TR>
-	<TR>
-		<TD>5</TD><TD>Tweet 5</TD><TD><button id="btn9">Edit</button></TD>
-	</TR>
-	<TR>
-		<TD>6</TD><TD>Tweet 6</TD><TD><button id="btn10">Edit</button></TD>
-	</TR>
-	<TR>
-		<TD>7</TD><TD>Tweet 7</TD><TD><button id="btn11">Edit</button></TD>
-	</TR>
-	<TR>
-		<TD>8</TD><TD>Tweet 8</TD><TD><button id="btn12">Edit</button></TD>
-	</TR>
-	<TR>
-		<TD>9</TD><TD>Tweet 9</TD><TD><button id="btn13">Edit</button></TD>
-	</TR>
-	<TR>
-		<TD>10</TD><TD>Tweet 10</TD><TD><button id="btn14">Edit</button></TD>
-	</TR>
-	</TABLE>
+	<P><B>Your Tweets:</B></P>
+	<div id="listingTable"></div>
+	<br/>
+<button class="btn" onclick="prevPage()" id="btn_prev">Prev</button>
+<button class="btn" onclick="nextPage()" id="btn_next">Next</button>
+&nbsp;Page No: <strong><span id="page"></span></strong>
 
-	<P></P>
-	<button id="btn4">Next</button>
 </body>
 </html>

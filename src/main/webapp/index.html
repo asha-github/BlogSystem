@@ -54,19 +54,45 @@ tr:hover td {
 var current_page = 1;
 var records_per_page = 5;
 var objJson =[];
+var authorization_token;
 
 $(document).ready(function(){
+	
+	$("#btn2").click(function (e) {
+		$.ajax({
+		    url: "http://ec2-35-164-51-67.us-west-2.compute.amazonaws.com:8080/Blog/public/blogService/search?key=" + $('#searchString').val(),
+		    type: "GET",
+		    headers: {
 
-	$("#btn").click(function () {
+		    	 accept: "application/json"
+		    },
+		    success: function(data) {
+		        // you can find the items in JSON format under data.results
+		    	 //console.log("data=="+JSON.stringify(data.contents));
+		    	 //objJson=data.contents;
+		    	 objJson=data;
+		    	// console.log("objJson=="+JSON.stringify(objJson));
+		    	current_page = 1;
+		    	 changePage(1);
 
-		console.log("Login clicked!!!!");
-
+		    },
+		    error: function(data, errorCode, errorMessage) {
+		        // error handling
+		    }
+		});
+		 e.preventDefault();
+	});
+	
+	$("#btn").click(function (e) {
+		
+		console.log("Login clicked!!!!");		
+		
 		 var formData = {
 				 "userName":$('#username').val(),
 				 "profileName":"some name",
 				 "password" :$('#password').val()
 		};
-
+		
 		 var saveData = $.ajax({
 		      type: 'POST',
 		      url: 'http://ec2-35-164-51-67.us-west-2.compute.amazonaws.com:8080/Blog/public/userService/login',
@@ -76,21 +102,23 @@ $(document).ready(function(){
 		      async: false,
 		      success: function(data, textStatus, request) {
 		    	  	console.log(request.getResponseHeader('Authorization'));
+		    	  	authorization_token = request.getResponseHeader('Authorization');
 					alert("Login Successful...");
 		    	  //window.location.href = '/CMADUI/index.html';
-		    	  location.href = "http://localhost:8080/CMADUI/homePage.html";
-					 return false;
-
+		    	  window.location.href = "./homePage.html?userName=" + $('#username').val() + "&authorization_token=" + authorization_token;
+					 //return true;
+		    	  
 		      },
 		      error: function(request, textStatus, errorThrown) {
 		    	  alert("Login failure...");
 		    	  console.log("Login failure...");
 		    	  //window.location.href = '/CMADUI/index.html';
 		    	  //window.location.href = './homePage.html';
-					 return false;
-
+					 //return false;
+		    	  
 		      }
 		});
+		 e.preventDefault();
 	});
 
 
@@ -158,7 +186,7 @@ function changePage(page)
 
     var tempstr = "<TABLE BORDER='1' WIDTH='100%' CELLPADDING='1' CELLSPACING='1'>";
     tempstr =tempstr.concat("<TR><TD width='20%'>Serial Number</TD><TD width='80%'>Tweet</TD></TR>") ;
-
+    
 	//there can be lesser data in last page
 	if((page * records_per_page) > (objJson.length)) {
 		number_of_records_in_curr_page = (objJson.length) - ((page - 1) * records_per_page);
@@ -212,17 +240,22 @@ function numPages()
 	Password:
 	<input id='password' name="password" type="password" placeholder="Password">
 	<button id="btn" >Login</button>
-
+	
 	</form>
-
+	
 	<button id="btn1" onclick="window.location.href='./createAccount.html'">Create New Account</button>
 	</P>
 	<P>
-	<input id='searchString' placeholder="Search">
-	<button id="btn2" onclick="searchPage()">Search</button>
+	
+	<form action="" method="post">
+	<P>
+	Search:
+	<input id='searchString' name="searchString" type="text" placeholder="Search String">
+	<button id="btn2">Search</button>
+	</form>
 	</P>
 
-	<P>Latest Tweets:</P>
+	<P><B>Latest Tweets:</B></P>
 
 
 
