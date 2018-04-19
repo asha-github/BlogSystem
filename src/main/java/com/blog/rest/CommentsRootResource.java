@@ -24,8 +24,8 @@ import com.blog.security.JWTTokenNeeded;
 //@Path("/commentService")
 //@Consumes(MediaType.APPLICATION_JSON)
 //@Produces({ MediaType.APPLICATION_JSON })
-public class CommentRootResource {
-	private static final Logger logger = Logger.getLogger(CommentRootResource.class.getSimpleName());
+public class CommentsRootResource {
+	private static final Logger logger = Logger.getLogger(CommentsRootResource.class.getSimpleName());
 	private ICommentsService commentService = new CommentsService();
 //
 //	@POST
