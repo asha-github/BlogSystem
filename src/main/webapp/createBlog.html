@@ -1,12 +1,97 @@
 <html>
 <head>
-<title>Blog Application</title>
-<script src="jquery-2.1.3.js"></script>
+<script src="https://code.jquery.com/jquery-2.1.3.js"></script>
 <script type="text/javascript">
+function getParams(){
+	var idx = document.URL.indexOf('?');
+	var params = new Array();
+	if (idx != -1) {
+	var pairs = document.URL.substring(idx+1, document.URL.length).split('&');
+	for (var i=0; i<pairs.length; i++){
+	nameVal = pairs[i].split('=');
+	params[nameVal[0]] = nameVal[1];
+	}
+	}
+	return params;
+}
+
+var params = getParams();
+var userName = unescape(params["userName"]);
+var authorization_token = unescape(params["authorization_token"]);
+
+$(document).ready(function(){
+	
+	$("#btn2").click(function (e) {
+		 e.preventDefault();
+		 window.location.href = "./homePage.html?userName=" + userName + "&authorization_token=" + authorization_token;
+	});
+
+
+	$("#btn1").click(function (e) {
+
+		 var formData = {
+				 "blogTitle":$('#title').val(),
+				 "blogContent":$('#message').val(),
+				 "userName" :userName
+		};
+
+		 var saveData = $.ajax({
+		      type: 'POST',
+		      url: 'http://ec2-35-164-51-67.us-west-2.compute.amazonaws.com:8080/Blog/public/blogService/blog',
+		      data: JSON.stringify(formData),
+		      dataType: "json",
+		      contentType:  "application/json; charset=utf-8",
+				headers: {
+				
+					 accept: "application/json",
+					 Authorization: authorization_token
+				},
+		      async: false,
+		      success: function(resultData) {
+					alert("Blog created successfully!!!!");
+					window.location.href = "./homePage.html?userName=" + userName + "&authorization_token=" + authorization_token;
+					//return false;
+		      },
+		      error: function(textStatus, errorThrown) {
+		    	  alert("Some error in blog creation!!!!");
+					window.location.href = "./homePage.html?userName=" + userName + "&authorization_token=" + authorization_token;
+					//return false;
+		      }
+		});
+		//saveData.error(function() { alert("Something went wrong in account creation"); });
+		 e.preventDefault();
+
+
+	});
+
+});
+
+
+
 </script>
+<title>My Blog Application</title>
+
 </head>
 <body>
-	<h1>Blog Application</h1>
+	<h1>Create Blog</h1>
 	<hr />
+
+	<form>
+		<P>
+		<B>Title:</B>
+		<input id='title' name="title" type="text" placeholder="Title">
+		</P>
+		
+		<div class="messageBox">
+		  <label for="message"><B>Blog Contents</B></label><br>
+		  <textarea id="message" cols="80" rows="8" required
+		            placeholder="Here is the Blog."></textarea>
+		</div>
+		<button id="btn1" >Create Blog</button>
+	</form>
+
+	<P>
+	<button id="btn2">Back</button>
+	<P>
 </body>
 </html>
