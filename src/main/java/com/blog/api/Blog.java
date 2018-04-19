@@ -16,8 +16,8 @@ import javax.persistence.Transient;
 
 @Entity
 @NamedQueries({
-    @NamedQuery(name = Blog.SEARCH_BY_KEY, query = "SELECT u FROM Blog u where (lower(u.blogTitle) like :key) OR (lower(u.blogTitle) like :key)  order by publishDate"),
-    @NamedQuery(name = Blog.SEARCH_BY_USER, query = "SELECT u FROM Blog u where u.userName = :userName order by publishDate"),
+    @NamedQuery(name = Blog.SEARCH_BY_KEY, query = "SELECT u FROM Blog u where (lower(u.blogTitle) like :key) OR (lower(u.blogTitle) like :key)  order by publishDate DESC"),
+    @NamedQuery(name = Blog.SEARCH_BY_USER, query = "SELECT u FROM Blog u where u.userName = :userName order by publishDate DESC"),
 })
 public class Blog implements Serializable{
 

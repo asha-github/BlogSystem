@@ -46,7 +46,7 @@ public class JpaBlogDAO implements IBlogDAO {
 	@Override
 	public List<Blog> getAllBlogs(){
 		em = emf.createEntityManager();
-		List<Blog> list = em.createQuery("from " + Blog.class.getName()+" order by publishDate")
+		List<Blog> list = em.createQuery("from " + Blog.class.getName()+" order by publishDate DESC")
 				.getResultList();
 		em.close();
 		return list;
