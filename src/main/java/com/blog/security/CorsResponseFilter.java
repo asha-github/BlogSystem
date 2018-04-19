@@ -23,5 +23,6 @@ public class CorsResponseFilter implements ContainerResponseFilter {
         responseCtx.getHeaders().add( "Access-Control-Allow-Credentials", "true" );
         responseCtx.getHeaders().add( "Access-Control-Allow-Methods", "GET, POST, DELETE, PUT" );
         responseCtx.getHeaders().add("Access-Control-Allow-Headers", "X-PINGOTHER, Content-Type, Authorization, Content-Length, X-Requested-With");
+        responseCtx.getHeaders().add("Access-Control-Expose-Headers", "Content-Type, Authorization, Content-Length");
     }
 }
