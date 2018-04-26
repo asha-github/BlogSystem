@@ -94,13 +94,7 @@
 					<target>1.8</target>
 				</configuration>
 			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-war-plugin</artifactId>
-				<configuration>
-					<outputDirectory>/Users/ashas/Applns/apache-tomcat-8.0.33/webapps</outputDirectory>
-				</configuration>
-			</plugin>
+			
 		</plugins>
     <finalName>Blog</finalName>
   </build>
