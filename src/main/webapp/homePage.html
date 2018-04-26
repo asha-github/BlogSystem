@@ -176,7 +176,7 @@ function changePage(page)
 
     listing_table.innerHTML ="";
 
-    var tempstr = "<TABLE BORDER='1' WIDTH='100%' CELLPADDING='1' CELLSPACING='1'>";
+    var tempstr = "<TABLE BORDER='1' WIDTH='50%' CELLPADDING='1' CELLSPACING='1'>";
 
 	//there can be lesser data in last page
 	if((page * records_per_page) > (objJson.length)) {
@@ -190,7 +190,7 @@ function changePage(page)
        // listing_table.innerHTML += "<TR><TD>"+i+"</TD><TD>"+objJson[i].title +"</TD></TR>";
        var count=i+1;
        var blog_date = EpochToDate(objJson[i].publishDate);
-       tempstr =tempstr.concat("<TR><TD width='20%'><a href='./blogPage.html?blogTitle="+objJson[i].blogTitle+"&blogContent="+objJson[i].blogContent+"'>"+objJson[i].blogTitle +"</a>  Added on  "+ blog_date +"</TD></TR>") ;
+       tempstr =tempstr.concat("<TR><TD width='50%'><a href='./blogPage.html?blogTitle="+objJson[i].blogTitle+"&blogContent="+objJson[i].blogContent+"'>"+objJson[i].blogTitle +"</a>  Added on  "+ blog_date +"</TD></TR>") ;
     }
     tempstr =tempstr.concat("</table>") ;
     //console.log("tempstr=="+JSON.stringify(tempstr));
@@ -234,7 +234,7 @@ function numPages()
 	<button id="btn1">Create a new Blog</button>
 	</P>
 
-	<P><B>Your Tweets:</B></P>
+	<P><B>Your Blogs:</B></P>
 	<div id="listingTable"></div>
 	<br/>
 <button class="btn" onclick="prevPage()" id="btn_prev">Prev</button>
