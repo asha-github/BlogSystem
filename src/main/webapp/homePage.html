@@ -8,6 +8,27 @@ body {background-color: black;font-family: 'Tangerine', serif;font-size: 25px; c
 h1   {color: white;}
 p    {color: white;}
 
+.div_top {
+    float: none;
+    clear: left;
+    height:20%;
+}
+
+.div_left {
+    float: left;
+    clear: left;
+    width:50%;
+}
+
+.div_right {
+    float: right;
+    position: absolute;
+    top: 150px;
+    right: 200;
+    width: 500px;
+    height: 500px;
+}
+
 .btn {
   background: #b2b6b8;
   background-image: -webkit-linear-gradient(top, #b2b6b8, #b2b6b8);
@@ -192,7 +213,8 @@ function changePage(page)
        var blog_date = EpochToDate(objJson[i].publishDate);
        tempstr =tempstr.concat("<TR><TD width='50%'><a href='./blogPage.html?blogId="+ objJson[i].blogId +"'>"+objJson[i].blogTitle + "</a><br />" +objJson[i].blogContent.substring(0,50) + "..." + " <br />Added on  "+ blog_date + "</TD></TR>") ;
     }
-    tempstr =tempstr.concat("</table>") ;
+    tempstr =tempstr.concat("</table> </DIV>") ;
+    tempstr =tempstr.concat( "<DIV class='div_right'> <img src='Scribble.jpg' width='500' height='500' ALIGN='CENTER'> " ) ;
     //console.log("tempstr=="+JSON.stringify(tempstr));
     listing_table.innerHTML = tempstr;
 
@@ -235,7 +257,7 @@ function numPages()
 	</P>
 
 	<P><B>Your Blogs:</B></P>
-	<div id="listingTable"></div>
+	<div class = "dev_left" id="listingTable"></div>
 	<br/>
 <button class="btn" onclick="prevPage()" id="btn_prev">Prev</button>
 <button class="btn" onclick="nextPage()" id="btn_next">Next</button>
