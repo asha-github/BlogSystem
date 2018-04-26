@@ -4,17 +4,15 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
-
 import com.blog.api.Blog;
 import com.blog.api.BlogServiceException;
 import com.blog.api.IBlogService;
-import com.blog.api.User;
 import com.blog.data.IBlogDAO;
 import com.blog.data.JpaBlogDAO;
 
 public class BlogService implements IBlogService {
 	private static final Logger logger = Logger.getLogger(BlogService.class.getSimpleName());
-	private IBlogDAO dao = new JpaBlogDAO();
+	private JpaBlogDAO dao = new JpaBlogDAO();
 	@Override
 	public void addBlog(Blog blog) {
 		logger.info("\nNew blog received!!");
