@@ -27,22 +27,53 @@ function getParams(){
 	return params;
 }
 
-params = getParams();
-blog_title = unescape(params["blogTitle"]);
-blog_content = unescape(params["blogContent"]);
+var params = getParams();
+var blogId = unescape(params["blogId"]);
+var blogDetails;
+
+$(document).ready(function(){
+
+	$.ajax({
+	    url: "http://blog-lb-1382561274.us-west-2.elb.amazonaws.com:8080/Blog/public/blogService/blog?blogId=" + blogId,
+	    type: "GET",
+	    headers: {
+
+	    	 accept: "application/json"
+	    },
+	    success: function(data) {
+	        // you can find the items in JSON format under data.results
+	    	 //console.log("data=="+JSON.stringify(data.contents));
+	    	 //objJson=data.contents;
+	    	 blogDetails=data;
+	    	// console.log("objJson=="+JSON.stringify(objJson));
+	    	 document.Form.title.value = blogDetails.blogTitle;
+	    	 document.Form.message.value = blogDetails.blogContent;
+
+	    },
+	    error: function(data, errorCode, errorMessage) {
+	        // error handling
+	    }
+	});
+
+});
 
 </script>
 </head>
 <body>
 	<h1>Blog Page</h1>
 	<hr />
-      <script type="text/javascript">
-        document.write("<B>Title :</B> " + blog_title);
-        document.write("<br>");
-        document.write("<B>Blog Data :</B> " + blog_content);
-        document.write("<br>");
-        document.write("<br>");
-      </script>
+	<form NAME="Form">
+		<P>
+		<B>Title:</B>
+		<input id='title' name="title" type="text" placeholder="Title" READONLY=1 DISABLED>
+		</P>
+
+		<div class="messageBox">
+		  <label for="message"><B>Blog Contents</B></label><br>
+		  <textarea id="message" cols="100" rows="30" required
+		            placeholder="Here is the Blog." READONLY=1></textarea>
+		</div>
+	</form>
       
 
 </body>

@@ -190,7 +190,7 @@ function changePage(page)
        // listing_table.innerHTML += "<TR><TD>"+i+"</TD><TD>"+objJson[i].title +"</TD></TR>";
        var count=i+1;
        var blog_date = EpochToDate(objJson[i].publishDate);
-       tempstr =tempstr.concat("<TR><TD width='50%'><a href='./blogPage.html?blogTitle="+objJson[i].blogTitle+"&blogContent="+objJson[i].blogContent+"'>" + objJson[i].blogTitle + "</a><br />" +objJson[i].blogContent.substring(0,50) + "..." + " <br />Added on  "+ blog_date + "</TD></TR>") ;
+       tempstr =tempstr.concat("<TR><TD width='50%'><a href='./blogPage.html?blogId="+ objJson[i].blogId +"'>"+objJson[i].blogTitle + "</a><br />" +objJson[i].blogContent.substring(0,50) + "..." + " <br />Added on  "+ blog_date + "</TD></TR>") ;
     }
     tempstr =tempstr.concat("</table>") ;
     //console.log("tempstr=="+JSON.stringify(tempstr));
