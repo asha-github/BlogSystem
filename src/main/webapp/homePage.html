@@ -79,19 +79,19 @@ var records_per_page = 10;
 var objJson =[];
 
 $(document).ready(function(){
-	
+
 	$("#btn1").click(function (e) {
 		 e.preventDefault();
 		 window.location.href = "./createBlog.html?userName=" + userName + "&authorization_token=" + authorization_token;
 	});
-	
+
 	$("#btn2").click(function (e) {
 		 e.preventDefault();
 		 window.location.href = "./index.html";
 	});
-	
+
 	$.ajax({
-	    url: "http://ec2-35-164-51-67.us-west-2.compute.amazonaws.com:8080/Blog/public/userService/user?userName=" + userName,
+	    url: "http://blog-lb-1382561274.us-west-2.elb.amazonaws.com:8080/Blog/public/userService/user?userName=" + userName,
 	    type: "GET",
 	    headers: {
 
@@ -105,9 +105,9 @@ $(document).ready(function(){
 	    	 console.log("userDetails - " +JSON.stringify(userDetails));
 	    	 console.log("userDetails - " +userDetails);
 	    	 document.ProfileNameForm.ProfileName.value = userDetails.profileName;
-	    	 
+
 	    		$.ajax({
-	    		    url: "http://ec2-35-164-51-67.us-west-2.compute.amazonaws.com:8080/Blog/public/blogService/blogsByUser?user=" + userDetails.userName,
+	    		    url: "http://blog-lb-1382561274.us-west-2.elb.amazonaws.com:8080/Blog/public/blogService/blogsByUser?user=" + userDetails.userName,
 	    		    type: "GET",
 	    		    headers: {
 
@@ -132,7 +132,7 @@ $(document).ready(function(){
 	        // error handling
 	    }
 	});
-	
+
 });
 
 
@@ -157,7 +157,7 @@ function nextPage()
 function EpochToDate(epoch) {
     if (epoch < 10000000000)
         epoch *= 1000; // convert to milliseconds (Epoch is usually expressed in seconds, but Javascript uses Milliseconds)
-    var epoch = epoch + (new Date().getTimezoneOffset() * -1); //for timeZone        
+    var epoch = epoch + (new Date().getTimezoneOffset() * -1); //for timeZone
     return new Date(epoch);
 }
 
@@ -177,7 +177,7 @@ function changePage(page)
     listing_table.innerHTML ="";
 
     var tempstr = "<TABLE BORDER='1' WIDTH='100%' CELLPADDING='1' CELLSPACING='1'>";
-    
+
 	//there can be lesser data in last page
 	if((page * records_per_page) > (objJson.length)) {
 		number_of_records_in_curr_page = (objJson.length) - ((page - 1) * records_per_page);
@@ -229,7 +229,7 @@ function numPages()
 	<INPUT TYPE="text" NAME="ProfileName" SIZE="20" READONLY=1 DISABLED>
 	<button id="btn2">Log Out</button>
 	</FORM>
-	
+
 	<P>
 	<button id="btn1">Create a new Blog</button>
 	</P>

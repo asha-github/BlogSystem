@@ -29,7 +29,7 @@ var userName = unescape(params["userName"]);
 var authorization_token = unescape(params["authorization_token"]);
 
 $(document).ready(function(){
-	
+
 	$("#btn2").click(function (e) {
 		 e.preventDefault();
 		 window.location.href = "./homePage.html?userName=" + userName + "&authorization_token=" + authorization_token;
@@ -46,12 +46,12 @@ $(document).ready(function(){
 
 		 var saveData = $.ajax({
 		      type: 'POST',
-		      url: 'http://ec2-35-164-51-67.us-west-2.compute.amazonaws.com:8080/Blog/public/blogService/blog',
+		      url: 'http://blog-lb-1382561274.us-west-2.elb.amazonaws.com:8080/Blog/public/blogService/blog',
 		      data: JSON.stringify(formData),
 		      dataType: "json",
 		      contentType:  "application/json; charset=utf-8",
 				headers: {
-				
+
 					 accept: "application/json",
 					 Authorization: authorization_token
 				},
@@ -90,7 +90,7 @@ $(document).ready(function(){
 		<B>Title:</B>
 		<input id='title' name="title" type="text" placeholder="Title">
 		</P>
-		
+
 		<div class="messageBox">
 		  <label for="message"><B>Blog Contents</B></label><br>
 		  <textarea id="message" cols="80" rows="8" required

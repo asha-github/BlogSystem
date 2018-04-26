@@ -62,15 +62,15 @@ var objJson =[];
 var authorization_token;
 
 $(document).ready(function(){
-	
+
 	$("#btn1").click(function (e) {
 		 e.preventDefault();
 		 window.location.href = "./createAccount.html";
 	});
-	
+
 	$("#btn2").click(function (e) {
 		$.ajax({
-		    url: "http://ec2-35-164-51-67.us-west-2.compute.amazonaws.com:8080/Blog/public/blogService/search?key=" + $('#searchString').val(),
+		    url: "http://blog-lb-1382561274.us-west-2.elb.amazonaws.com:8080/Blog/public/blogService/search?key=" + $('#searchString').val(),
 		    type: "GET",
 		    headers: {
 
@@ -92,20 +92,20 @@ $(document).ready(function(){
 		});
 		 e.preventDefault();
 	});
-	
+
 	$("#btn").click(function (e) {
-		
-		console.log("Login clicked!!!!");		
-		
+
+		console.log("Login clicked!!!!");
+
 		 var formData = {
 				 "userName":$('#username').val(),
 				 "profileName":"some name",
 				 "password" :$('#password').val()
 		};
-		
+
 		 var saveData = $.ajax({
 		      type: 'POST',
-		      url: 'http://ec2-35-164-51-67.us-west-2.compute.amazonaws.com:8080/Blog/public/userService/login',
+		      url: 'http://blog-lb-1382561274.us-west-2.elb.amazonaws.com:8080/Blog/public/userService/login',
 		      data: JSON.stringify(formData),
 		      //dataType: "json",
 		      contentType:  "application/json; charset=utf-8",
@@ -117,7 +117,7 @@ $(document).ready(function(){
 		    	  //window.location.href = '/CMADUI/index.html';
 		    	  window.location.href = "./homePage.html?userName=" + $('#username').val() + "&authorization_token=" + authorization_token;
 					 //return true;
-		    	  
+
 		      },
 		      error: function(request, textStatus, errorThrown) {
 		    	  alert("Login failure...");
@@ -125,7 +125,7 @@ $(document).ready(function(){
 		    	  //window.location.href = '/CMADUI/index.html';
 		    	  //window.location.href = './homePage.html';
 					 //return false;
-		    	  
+
 		      }
 		});
 		 e.preventDefault();
@@ -133,7 +133,7 @@ $(document).ready(function(){
 
 
 	$.ajax({
-	    url: "http://ec2-35-164-51-67.us-west-2.compute.amazonaws.com:8080/Blog/public/blogService/blogs",
+	    url: "http://blog-lb-1382561274.us-west-2.elb.amazonaws.com:8080/Blog/public/blogService/blogs",
 	    type: "GET",
 	    headers: {
 
@@ -183,7 +183,7 @@ function nextPage()
 function EpochToDate(epoch) {
     if (epoch < 10000000000)
         epoch *= 1000; // convert to milliseconds (Epoch is usually expressed in seconds, but Javascript uses Milliseconds)
-    var epoch = epoch + (new Date().getTimezoneOffset() * -1); //for timeZone        
+    var epoch = epoch + (new Date().getTimezoneOffset() * -1); //for timeZone
     return new Date(epoch);
 }
 
@@ -203,7 +203,7 @@ function changePage(page)
     listing_table.innerHTML ="";
 
     var tempstr = "<TABLE BORDER='1' WIDTH='50%' CELLPADDING='1' CELLSPACING='1'>";
-    
+
 	//there can be lesser data in last page
 	if((page * records_per_page) > (objJson.length)) {
 		number_of_records_in_curr_page = (objJson.length) - ((page - 1) * records_per_page);
@@ -258,14 +258,14 @@ function numPages()
 	Password:
 	<input id='password' name="password" type="password" placeholder="Password">
 	<button id="btn" >Login</button>
-	
+
 	<button id="btn1">Create New Account</button>
-	
+
 	</form>
-	
+
 	</P>
 	<P>
-	
+
 	<form action="" method="post">
 	<P>
 	Search:
