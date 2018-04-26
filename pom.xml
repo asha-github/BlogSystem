@@ -7,6 +7,7 @@
   <version>0.0.1-SNAPSHOT</version>
   <name>Blogging Application</name>
   <url>http://maven.apache.org</url>
+	
    <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <jersey2.version>2.24.1</jersey2.version>
@@ -94,13 +95,7 @@
 					<target>1.8</target>
 				</configuration>
 			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-war-plugin</artifactId>
-				<configuration>
-					<outputDirectory>/Users/ashas/Applns/apache-tomcat-8.0.33/webapps</outputDirectory>
-				</configuration>
-			</plugin>
+			
 		</plugins>
     <finalName>Blog</finalName>
   </build>
