@@ -32,7 +32,6 @@ public class BlogServiceTest extends TestCase {
 		Blog blog = new Blog();
 		blog.setBlogContent(content);
 		blog.setBlogTitle(title);
-		//set user id
 		blog.setUserId("bloguser");
 
 		BlogService blogService = new BlogService();
