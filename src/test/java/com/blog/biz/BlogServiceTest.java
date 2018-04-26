@@ -26,16 +26,17 @@ public class BlogServiceTest extends TestCase {
 
 	@Test
 	public void test_addBlog() throws Exception {
-		
+
 		String content = "BlogContent";
 		String title = "BlogTitle";
 		Blog blog = new Blog();
 		blog.setBlogContent(content);
 		blog.setBlogTitle(title);
+		//set user id
 		blog.setUserId("bloguser");
-		
+
 		BlogService blogService = new BlogService();
-		
+
 		blogService.addBlog(blog);
 
 		Mockito.verify(mockedJpaBlogDAO).addBlog(blog);
